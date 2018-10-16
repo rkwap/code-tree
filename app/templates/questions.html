@@ -1,0 +1,87 @@
+{% extends "layout.html" %}
+{% block main %}
+{% if breaks %}
+<form action="" method="post">
+    <div class="card card-stats mb-4 mb-xl-0" style="background-color:#f4f5f7;">
+        <div class="card-body">
+            <h1>Break No : {{step+1}}</h1>
+            <div class="row">
+              <div class="col-md-6">
+                  <h2>Starting Point:</h2>
+                  <textarea name="s_point_{{step+1}}" class="form-control" rows="2" cols="50" placeholder="Strating Point"></textarea>   
+                  <br>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <h2>Options:</h2>
+                <textarea name="option1_{{step+1}}" class="form-control" rows="2" cols="50" placeholder="Option 1 " required></textarea>   
+                <br>
+                <textarea name="option2_{{step+1}}" class="form-control" rows="2" cols="50" placeholder="Option 2 " required></textarea>
+                <br>
+                <textarea name="option3_{{step+1}}" class="form-control" rows="2" cols="50" placeholder="Option 3 " required></textarea>
+              </div>
+              <div class="col-md-6">
+                  <h2>Correct Option:</h2>
+                  <textarea name="c_option_{{step+1}}" class="form-control" rows="2" cols="50" placeholder="Correct Option" required></textarea>   
+              </div>
+            </div>  
+            <br>
+            <input type="hidden" name="step" value="{{step+1}}">
+            <button name="submit__{{step+1}}" type="submit" class="btn btn-warning">Submit</button>
+
+        </div>
+    </div>
+</form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% else %}
+<form action="" method="post">
+    <div class="card card-stats mb-4 mb-xl-0" style="background-color:#f4f5f7;">
+        <div class="card-body">
+<h2>Text area for given elements of the problem:</h2>
+<textarea name="details" class="form-control" id="exampleFormControlTextarea1" rows="5" cols="120" placeholder="The elements to given before hand (such as header files and initialised variables) " required></textarea>
+<br>
+<div class="row">
+  &nbsp;&nbsp;&nbsp;&nbsp;<h2>Number of breaks in the problem:</h2>&nbsp;&nbsp;
+  <select name="breaks_n">
+    {% for i in range(0,15) %}
+    <option class="form-control" value={{i+1}}>{{i+1}}</option>
+    {% endfor %}
+  </select>
+</div>
+  <br><br>
+  <button name="submit" type="submit" value="submit" class="btn btn-danger">Submit</button>
+  </div>
+</div>
+</form>
+{% endif %}
+{% endblock %}
