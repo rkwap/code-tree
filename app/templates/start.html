@@ -1,0 +1,166 @@
+{% extends "layout.html" %}
+{% block main %}
+<div class="card card-stats mb-4 mb-xl-0" style="background-color:#f4f5f7;">
+    <div class="card-body">
+        {% if sel_ques %}
+        <div class="table-responsive">
+            <table class="table align-items-center">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">S.No</th>
+                    <th scope="col">Question</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for ques in all_ques %}
+                <tr>
+                    <th scope="row">
+                            <div class="media align-items-center">
+                                <div class="media-body">
+                                    <span class="mb-0 text-sm">{{loop.index}}</span>
+                                </div>
+                            </div>
+                    </th> 
+                    <th scope="row">
+                        <div class="media align-items-center">
+                            <div class="media-body">
+                                <span class="mb-0 text-sm">{{ques[1]}}</span>
+                            </div>
+                        </div>
+                    </th>
+                    <td>
+                        <span class="badge badge-dot mr-4">
+                        {% for n_done in ndone_q if n_done == ques[0] %}
+                        <i class="bg-warning"></i> pending
+                        {% endfor %}
+                        {% for done in done_q if done == ques[0] %}
+                        <i class="bg-success"></i> completed
+                        {% endfor %}
+                        </span>
+                    </td>
+                    <td>
+                    {% for n_done in ndone_q if n_done == ques[0] %}
+                        <form action="" method="post">
+                            <input type="hidden" name="q_id" value="{{ques[0]}}">       
+                            <div class="d-flex align-items-center">
+                                <div>
+                                    <button name="start" type="submit" class="btn btn-default">Solve</button>
+                                </div>
+                            </div>
+                        </form>
+                    {% endfor %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        </div>
+        {% else %}
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+        Show Details
+        </button>
+      
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h3 class="modal-title" id="exampleModalLabel">Important Required Details</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                {{details}}
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-primary">OK</button>
+                </div>
+            </div>
+            </div>
+        </div>
+        <br><br>
+
+
+        <div class="row justify-content-center">
+            <div class="col-lg-7 col-md-5">
+            <div class="card bg-secondary shadow border-0">
+                <div class="card-header bg-transparent pb-5">
+                        <h1>Break {{step}}/{{breaks_n}}</h1>
+                    <p><b>   
+                        {{s_point[step-1]}}<br>
+                    </b></p>
+                </div>
+                    
+                <br>	
+                <form action="" method="post">	
+                    <div style="padding-left:10%;">
+
+
+                    {% for opt in options[step-1] %}    
+                        <div class="custom-control custom-radio mb-3">
+                            <input name="option_{{step}}" value="{{opt}}" class="custom-control-input" id="option{{loop.index}}" type="radio">
+                            <label class="custom-control-label" for="option{{loop.index}}">{{opt}}</label>
+                        </div>
+                    {% endfor %}
+
+                    </div>	
+                    <br>
+                    <div style="padding-left:45%;">
+                        <input type="hidden" name="step" value="{{step+1}}">
+                        <input type="hidden" name="q_id" value="{{q_id}}">
+                        <input type="hidden" name="status_{{step}}" value={{status}}>
+                        <button name="submit_{{step+1}}" class="btn btn-primary" type="submit">Submit</button>
+                    </div>	
+                    <br>
+                </form>
+            </div>
+            </div>
+        
+            <div class="col-lg-5 col-md-7">
+            <div class="card bg-secondary shadow border-0">
+                <div class="card-header pb-5" style="background-image: linear-gradient(to bottom right, #8E2DE2, #4A00E0); color:white; text-align:center;">
+                    <strong>SCORE: 100</strong>
+                </div>
+    <pre style="padding-left:5%;max-height: 33vh;">{{ status }}
+    
+    using namespace std;
+    
+    int main()
+    {	
+        int n, rem, result;
+        result=0;
+        
+        printf("enter a number");
+        scanf(" %d ", &amp;n);
+        
+        while( n!=0 )
+        {
+            rem = n%10;
+            result = rem*rem*rem;
+            n/=10;
+        }
+        if(result == n)
+            printf("%d is an armstrong number", n);
+        
+        else
+            printf("%d is not an armstrong number" , n);
+        
+        return 0;
+        
+    }
+    </pre>
+                
+            </div>
+            </div>
+        </div>
+        
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

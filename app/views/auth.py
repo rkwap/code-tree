@@ -18,6 +18,7 @@ def login():
         phash = query_db("select password from Users where email= %s", (email, ))
         global userid
         userid = query_db("select id from Users where email = %s", (email, ))
+        userd = query_db("select * from Users where email = %s", (email, ))
         if phash is None:
             flash("User does not exist","danger")
             return redirect(url_for("auth.login"))
@@ -25,6 +26,7 @@ def login():
         if sha.verify(password, phash[0][0]):
             session["email"] = email
             session["userid"] = userid[0][0]
+            session["user_name"] = userd[0][1]
             flash("Login Successful", "success")
             return redirect(url_for("main.index"))
         else:

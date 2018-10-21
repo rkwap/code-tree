@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+{% block main %}
+<div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">Leaderboard CodeTree</h4>
+            </div>
+            <div class="card-body">
+              <div class="toolbar">
+                <!--        Here you can write extra buttons/actions for the toolbar              -->
+              </div>
+              <table id="datatable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                <thead>
+                  <tr>
+                    <th>Rank</th>
+                    <th>Name</th>
+                    <th>Roll No.</th>
+                    <th>Score</th>
+                    <th>Year</th>
+                  </tr>
+                </thead>
+                <tfoot>
+                  <tr>
+                    <th>Rank</th>
+                    <th>Name</th>
+                    <th>Roll No.</th>
+                    <th>Score</th>
+                    <th>Year</th>
+                  </tr>
+                </tfoot>
+                <tbody>
+                  {% for user in users %}
+                  <tr>
+                    <td>{{loop.index}}</td>
+                    <td>{{user[1]}}</td>
+                    <td>{{user[2]}}</td>
+                    <td>{%if user[6] is none %}0{% else %}{{user[6]}}{% endif %}</td>
+                    <td>{{user[8]}}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <!-- end content-->
+          </div>
+          <!--  end card  -->
+        </div>
+        <!-- end col-md-12 -->
+      </div>
+      <!-- end row -->
+{% endblock %}

@@ -16,6 +16,12 @@
   <link href="../assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
   <!-- Argon CSS -->
   <link type="text/css" href="../assets/css/argon.css?v=1.0.0" rel="stylesheet">
+  <script type="text/javascript">
+    function target_popup(form) {
+      window.open('', 'formpopup', 'resizeable,scrollbar=no');
+      form.target = 'formpopup';
+  }
+  </script>
 </head>
 
 <body class="bg-default">
@@ -103,7 +109,8 @@
               <div class="text-center text-muted mb-4">
                 <h2>Sign in with credentials</h2>
               </div>
-              <form role="form" action="" method="post">
+              
+              <form role="form" action="" method="post" onsubmit="target_popup(this)">
                 <div class="form-group mb-3">
                   <div class="input-group input-group-alternative">
                     {% if admin_chk %}
