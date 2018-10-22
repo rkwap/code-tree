@@ -17,6 +17,7 @@
                     <th>Name</th>
                     <th>Roll No.</th>
                     <th>Score</th>
+                    <th>Time Taken</th>
                     <th>Year</th>
                   </tr>
                 </thead>
@@ -26,6 +27,7 @@
                     <th>Name</th>
                     <th>Roll No.</th>
                     <th>Score</th>
+                    <th>Time Taken</th>
                     <th>Year</th>
                   </tr>
                 </tfoot>
@@ -35,7 +37,8 @@
                     <td>{{loop.index}}</td>
                     <td>{{user[1]}}</td>
                     <td>{{user[2]}}</td>
-                    <td>{%if user[6] is none %}0{% else %}{{user[6]}}{% endif %}</td>
+                    <td>{%if user[6] is none %}Not attempted{% else %}{{user[6]}}{% endif %}</td>
+                    <td>{%if user[7] is none %}Not attempted{% else %}{{'%0.2f'| format(user[7]|int/60|float)}} min{% endif %}</td>
                     <td>{{user[8]}}</td>
                   </tr>
                   {% endfor %}

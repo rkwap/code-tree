@@ -27,7 +27,7 @@
                     <th scope="row">
                         <div class="media align-items-center">
                             <div class="media-body">
-                                <span class="mb-0 text-sm">{{ques[1]}}</span>
+                                <span class="mb-0 text-sm">{{ques[1]|safe}}</span>
                             </div>
                         </div>
                     </th>
@@ -47,10 +47,14 @@
                             <input type="hidden" name="q_id" value="{{ques[0]}}">       
                             <div class="d-flex align-items-center">
                                 <div>
-                                    <button name="start" type="submit" class="btn btn-default">Solve</button>
+                                    <button name="start" type="submit" class="btn btn-default">Play!</button>
                                 </div>
                             </div>
                         </form>
+                    {% endfor %}
+                    {% for done in done_q if done == ques[0] %}
+                    <h4>{{ques[2]}} Points</h4>
+                    <h4>{{ques[3]}} Minutes</h4>
                     {% endfor %}
                     </td>
                 </tr>
@@ -60,6 +64,7 @@
 
         </div>
         {% else %}
+
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
         Show Details
@@ -76,7 +81,7 @@
                 </button>
                 </div>
                 <div class="modal-body">
-                {{details}}
+                {{details|safe}}
                 </div>
                 <div class="modal-footer">
                 <button type="button" class="btn btn-primary">OK</button>
@@ -93,7 +98,7 @@
                 <div class="card-header bg-transparent pb-5">
                         <h1>Break {{step}}/{{breaks_n}}</h1>
                     <p><b>   
-                        {{s_point[step-1]}}<br>
+                        {{s_point[step-1]|safe}}<br>
                     </b></p>
                 </div>
                     
@@ -105,7 +110,7 @@
                     {% for opt in options[step-1] %}    
                         <div class="custom-control custom-radio mb-3">
                             <input name="option_{{step}}" value="{{opt}}" class="custom-control-input" id="option{{loop.index}}" type="radio">
-                            <label class="custom-control-label" for="option{{loop.index}}">{{opt}}</label>
+                            <label class="custom-control-label" for="option{{loop.index}}">{{opt|safe}}</label>
                         </div>
                     {% endfor %}
 

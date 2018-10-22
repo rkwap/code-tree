@@ -5,6 +5,7 @@ from flask_session import Session
 import ast
 from random import shuffle
 from app import *
+from datetime import datetime, timedelta
 
 main = Blueprint('main', __name__)
 
@@ -13,7 +14,7 @@ main = Blueprint('main', __name__)
 @login_required
 def index():
     if request.method== 'GET':
-
+        ## For Leaderboard##
         u_time = query_db("SELECT ABS(TIMESTAMPDIFF(SECOND, e_time, s_time)) FROM Leaderboard WHERE u_id=%s",(session["userid"],))  
         u_total_time = 0
         if u_time is not None:
@@ -26,12 +27,12 @@ def index():
                                 session["userid"]
                                 ))  
             user = query_db("SELECT * FROM Users WHERE id=%s", (session["userid"],))
-
+        ## For Leaderboard ####
         sel_ques=True
         ### assigning question to each student
         ass_ques = query_db("SELECT questions FROM Users WHERE id=%s", (session["userid"],))
         if ass_ques[0][0] is None:
-            all_ques = query_db("SELECT * FROM Questions WHERE bonus is NULL ORDER BY RAND() LIMIT 10;")
+            all_ques = query_db("SELECT * FROM Questions ORDER BY RAND() LIMIT 10;")
             q_ids=[]
             for i in all_ques:
                 q_ids.append(i[0])
@@ -44,6 +45,7 @@ def index():
                         str(q_ids),
                         session["userid"],
                         ))
+            return redirect(url_for("main.index"))
         else:
             all_ques_ids = ast.literal_eval(ass_ques[0][0]) 
             all_ques_titles = []
@@ -57,18 +59,29 @@ def index():
                     if j[5] == 1:
                         done_q.append(i)
             ndone_q = [x for x in all_ques_ids if x not in done_q] ## ids of questions not done
-            all_ques = zip(all_ques_ids,all_ques_titles)
-        ### end of assigning question
+            marks=[]
+            time_taken=[]
+            for q_id in all_ques_ids:
+                temp = query_db("SELECT (CAST(IFNULL(correct,0) AS SIGNED) + CAST(IFNULL(incorrect,0) AS SIGNED)) FROM Leaderboard WHERE u_id=%s and q_id=%s",(session["userid"],q_id,))
+                marks.append(temp[0][0])
+                temp2 = query_db("SELECT ABS(TIMESTAMPDIFF(SECOND, e_time, s_time))  FROM Leaderboard WHERE u_id=%s and q_id=%s",(session["userid"],q_id,))
+                if temp2[0][0] is None:
+                    time_taken.append(str(0))
+                else:
+                    time_taken.append(float("{0:.2f}".format(int(temp2[0][0])/60)))
+
+            all_ques = zip(all_ques_ids,all_ques_titles,marks,time_taken)
+        ### end of assigning questions
     else:
         sel_ques=False
         q_id = int(request.form.get('q_id'))
         status = ""
         question = query_db("SELECT * FROM Questions WHERE id=%s", (q_id,))
-        details = question[0][2]
-        s_point = ast.literal_eval("["+str(question[0][3])+"]") 
-        answers = ast.literal_eval("["+str(question[0][5])+"]") 
+        details = question[0][1]
+        s_point = ast.literal_eval("["+str(question[0][2])+"]") 
+        answers = ast.literal_eval("["+str(question[0][4])+"]") 
         breaks_n = len(answers)
-        options = ast.literal_eval("["+str(question[0][4])+"]") 
+        options = ast.literal_eval("["+str(question[0][3])+"]") 
         # shuffle the options
         for i in range(0,breaks_n):
             shuffle(options[i])
@@ -118,7 +131,7 @@ def index():
                             ))                      
                 
                 answer = True
-                print("correct")
+                flash("Congrats! You have selected correct option.", "success")
             else:
                 if l_board[0][4] is None:
                     marks = -1
@@ -147,7 +160,7 @@ def index():
                     if int(l_board[0][4]) == -5:
                         return redirect(url_for("main.index"))
                 answer = False
-                print("incorrect")       
+                flash("Oops! You have selected wrong option.", "warning")     
 
         else:
             # Starting Step
@@ -156,19 +169,19 @@ def index():
             execute_db("update Leaderboard set s_time=NOW() where q_id=%s",(
                         int(q_id),
                         ))              
-
+            execute_db("update Leaderboard set done=%s where q_id=%s",(
+                        1,
+                        int(q_id),
+                        ))            
             status = status + str(request.form.get('status_'+str(step)))
             
 
         # Ending Step
         if step > int(breaks_n): # For last break
-            execute_db("update Leaderboard set done=%s where q_id=%s",(
-                        1,
-                        int(q_id),
-                        ))
             execute_db("update Leaderboard set e_time=NOW() where q_id=%s",(
                         int(q_id),
-                        ))                
+                        ))               
+            flash("Question submitted successfully!", "success") 
             return redirect(url_for("main.index"))
         # return render_template("start.html", breaks_n=breaks_n,**locals())
 

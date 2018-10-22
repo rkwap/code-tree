@@ -8,22 +8,72 @@
             <div class="row">
               <div class="col-md-6">
                   <h2>Starting Point:</h2>
-                  <textarea name="s_point_{{step+1}}" class="form-control" rows="2" cols="50" placeholder="Strating Point"></textarea>   
+                  <textarea name="s_point_{{step+1}}" id="editor" class="form-control form-control-alternative" placeholder="Strating Point"></textarea>   
+                  <script>
+                      ClassicEditor
+                          .create( document.querySelector( '#editor' ) )
+                          .then( editor => {
+                              console.log( editor );
+                          } )
+                          .catch( error => {
+                              console.error( error );
+                          } );
+                  </script>       
                   <br>
               </div>
             </div>
             <div class="row">
               <div class="col-md-6">
                 <h2>Options:</h2>
-                <textarea name="option1_{{step+1}}" class="form-control" rows="2" cols="50" placeholder="Option 1 " required></textarea>   
+                <textarea name="option1_{{step+1}}" id="editor1" class="form-control form-control-alternative" placeholder="Option 1 "></textarea>
+                <script>
+                    ClassicEditor
+                        .create( document.querySelector( '#editor1' ) )
+                        .then( editor => {
+                            console.log( editor );
+                        } )
+                        .catch( error => {
+                            console.error( error );
+                        } );
+                </script>     
                 <br>
-                <textarea name="option2_{{step+1}}" class="form-control" rows="2" cols="50" placeholder="Option 2 " required></textarea>
+                <textarea name="option2_{{step+1}}" id="editor2" class="form-control form-control-alternative" placeholder="Option 2 "></textarea>
+                <script>
+                    ClassicEditor
+                        .create( document.querySelector( '#editor2' ) )
+                        .then( editor => {
+                            console.log( editor );
+                        } )
+                        .catch( error => {
+                            console.error( error );
+                        } );
+                </script>  
                 <br>
-                <textarea name="option3_{{step+1}}" class="form-control" rows="2" cols="50" placeholder="Option 3 " required></textarea>
+                <textarea name="option3_{{step+1}}" id="editor3" class="form-control form-control-alternative" placeholder="Option 3 "></textarea>
+                <script>
+                    ClassicEditor
+                        .create( document.querySelector( '#editor3' ) )
+                        .then( editor => {
+                            console.log( editor );
+                        } )
+                        .catch( error => {
+                            console.error( error );
+                        } );
+                </script>  
               </div>
               <div class="col-md-6">
                   <h2>Correct Option:</h2>
-                  <textarea name="c_option_{{step+1}}" class="form-control" rows="2" cols="50" placeholder="Correct Option" required></textarea>   
+                  <textarea name="c_option_{{step+1}}" id="editor4" class="form-control form-control-alternative" rows="2" cols="50" placeholder="Correct Option"></textarea>
+                  <script>
+                      ClassicEditor
+                          .create( document.querySelector( '#editor4' ) )
+                          .then( editor => {
+                              console.log( editor );
+                          } )
+                          .catch( error => {
+                              console.error( error );
+                          } );
+                  </script>     
               </div>
             </div>  
             <br>
@@ -35,51 +85,46 @@
 </form>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 {% else %}
 <form action="" method="post">
     <div class="card card-stats mb-4 mb-xl-0" style="background-color:#f4f5f7;">
         <div class="card-body">
+<div class="col-md-6">
+<h2>Title of Question</h2>
+<input type="text" name="title" class="form-control form-control-alternative" placeholder="Title of Question" required>      
+</div>
+<br>     
+<div class="col-md-12"> 
 <h2>Text area for given elements of the problem:</h2>
-<textarea name="details" class="form-control" id="exampleFormControlTextarea1" rows="5" cols="120" placeholder="The elements to given before hand (such as header files and initialised variables) " required></textarea>
+<textarea name="details" class="form-control form-control-alternative" id="editor" placeholder="The elements to given before hand (such as header files and initialised variables)"></textarea>
+<script>
+    ClassicEditor
+        .create( document.querySelector( '#editor' ) )
+        .then( editor => {
+            console.log( editor );
+        } )
+        .catch( error => {
+            console.error( error );
+        } );
+</script>
+</div>
 <br>
+
 <div class="row">
-  &nbsp;&nbsp;&nbsp;&nbsp;<h2>Number of breaks in the problem:</h2>&nbsp;&nbsp;
-  <select name="breaks_n">
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h2>Number of breaks in the problem:</h2>&nbsp;&nbsp;
+  <div class="col-md-1">
+  <select name="breaks_n" class="form-control form-control-alternative">
     {% for i in range(0,15) %}
     <option class="form-control" value={{i+1}}>{{i+1}}</option>
     {% endfor %}
   </select>
+  </div>
 </div>
   <br><br>
+  <div class="row">
+  <div class="col-md-6"></div>
   <button name="submit" type="submit" value="submit" class="btn btn-danger">Submit</button>
+  </div>
   </div>
 </div>
 </form>
