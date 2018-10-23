@@ -78,8 +78,8 @@ def index():
         question = query_db("SELECT * FROM Questions WHERE id=%s", (q_id,))
         details = question[0][1]
         ## finding starting details of program
-        s2 = "<p>#include &lt;stdio.h"
-        starting= '<p>#include &lt;stdio.h'+details[details.index(s2) + len(s2):]
+        # s2 = "<p>#include &lt;stdio.h"
+        # starting= '<p>#include &lt;stdio.h'+details[details.index(s2) + len(s2):]
         status=''
         s_point = ast.literal_eval("["+str(question[0][2])+"]") 
         answers = ast.literal_eval("["+str(question[0][4])+"]") 
