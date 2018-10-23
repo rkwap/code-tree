@@ -125,8 +125,9 @@ def index():
                             session["userid"],
                             ))           
 
-                execute_db("update Leaderboard set e_time=NOW() where q_id=%s",(
-                            int(q_id),
+                execute_db("update Leaderboard set e_time=NOW() where q_id=%s and u_id=%s",(
+                            int(q_id),\
+                            session["userid"],
                             ))                      
                 
                 answer = True
@@ -171,19 +172,22 @@ def index():
             # Starting Step
             step = 1
             status = ''
-            execute_db("update Leaderboard set s_time=NOW() where q_id=%s",(
+            execute_db("update Leaderboard set s_time=NOW() where q_id=%s and u_id=%s",(
                         int(q_id),
+                        session["userid"],
                         ))              
-            execute_db("update Leaderboard set done=%s where q_id=%s",(
+            execute_db("update Leaderboard set done=%s where q_id=%s and u_id=%s",(
                         1,
                         int(q_id),
+                        session["userid"],
                         ))            
             
 
         # Ending Step
         if step > int(breaks_n): # For last break
-            execute_db("update Leaderboard set e_time=NOW() where q_id=%s",(
+            execute_db("update Leaderboard set e_time=NOW() where q_id=%s and u_id=%s",(
                         int(q_id),
+                        session["userid"],
                         ))               
             flash("Question submitted successfully!", "success") 
             return redirect(url_for("main.index"))
