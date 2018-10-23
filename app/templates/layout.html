@@ -43,6 +43,11 @@
         }
     }
   </script>
+  <script>
+      if ( window.history.replaceState ) {
+          window.history.replaceState( null, null, window.location.href );
+      }
+  </script>
 </head>
 
 <body onkeydown="cancelBack()" oncontextmenu="return false;" onload="noBack(); onpageshow="if (event.persisted) noBack();" onunload="">
@@ -205,7 +210,7 @@
         {% block main2 %}
         {% endblock %}
       <!-- Card stats ------------------------>
-      
+
     </div>
   </div>
   <!-- Argon Scripts -->

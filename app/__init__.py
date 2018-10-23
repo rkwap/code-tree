@@ -50,4 +50,4 @@ from app.views.admin import admin
 
 app.register_blueprint(auth)
 app.register_blueprint(main)
-app.register_blueprint(admin, url_prefix="/admin")
+app.register_blueprint(admin, url_prefix="/7fdebb3021dbdc6fe")

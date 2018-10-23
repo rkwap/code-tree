@@ -75,11 +75,15 @@ def index():
     else:
         sel_ques=False
         q_id = int(request.form.get('q_id'))
-        status = ""
         question = query_db("SELECT * FROM Questions WHERE id=%s", (q_id,))
         details = question[0][1]
+        ## finding starting details of program
+        s2 = "<p>#include &lt;stdio.h"
+        starting= '<p>#include &lt;stdio.h'+details[details.index(s2) + len(s2):]
+        status=''
         s_point = ast.literal_eval("["+str(question[0][2])+"]") 
         answers = ast.literal_eval("["+str(question[0][4])+"]") 
+        title = question[0][5]
         breaks_n = len(answers)
         options = ast.literal_eval("["+str(question[0][3])+"]") 
         # shuffle the options
@@ -92,11 +96,6 @@ def index():
 
         if request.form.get('step'):
             step = int(request.form.get('step'))
-            
-            status += str(request.form.get('status_'+str(step)))
-            print("##########################")
-            print(request.form.get('status_1'))
-
 
             for i in range(1,breaks_n+1):
                 option_i = request.form.get('option_'+str(i))
@@ -131,6 +130,10 @@ def index():
                             ))                      
                 
                 answer = True
+
+                for i in range(0,step-1):
+                    status += str(s_point[i])+'<br>'+str(answers[i])
+
                 flash("Congrats! You have selected correct option.", "success")
             else:
                 if l_board[0][4] is None:
@@ -154,6 +157,8 @@ def index():
                             session["userid"],
                             ))         
 
+                for i in range(0,step-2):
+                    status += str(s_point[i])+'<br>'+str(answers[i])                
 
                 step = step-1
                 if l_board[0][4] is not None:
@@ -165,7 +170,7 @@ def index():
         else:
             # Starting Step
             step = 1
-            status = details
+            status = ''
             execute_db("update Leaderboard set s_time=NOW() where q_id=%s",(
                         int(q_id),
                         ))              
@@ -173,7 +178,6 @@ def index():
                         1,
                         int(q_id),
                         ))            
-            status = status + str(request.form.get('status_'+str(step)))
             
 
         # Ending Step

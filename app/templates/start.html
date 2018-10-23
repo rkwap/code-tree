@@ -27,7 +27,7 @@
                     <th scope="row">
                         <div class="media align-items-center">
                             <div class="media-body">
-                                <span class="mb-0 text-sm">{{ques[1]|safe}}</span>
+                                <span class="mb-0 text-sm">{{ques[1]|safe|upper}}</span>
                             </div>
                         </div>
                     </th>
@@ -53,8 +53,8 @@
                         </form>
                     {% endfor %}
                     {% for done in done_q if done == ques[0] %}
-                    <h4>{{ques[2]}} Points</h4>
-                    <h4>{{ques[3]}} Minutes</h4>
+                    <h4 class="text-primary">{{ques[2]}} Points</h4>
+                    <h4 class="text-success">{{ques[3]}} Minutes</h4>
                     {% endfor %}
                     </td>
                 </tr>
@@ -64,7 +64,9 @@
 
         </div>
         {% else %}
-
+        <div class="row">
+        <div class="col-md-3"></div>
+        <h1>{{title|upper}}&nbsp;&nbsp;&nbsp;&nbsp;</h1>
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
         Show Details
@@ -89,6 +91,8 @@
             </div>
             </div>
         </div>
+
+    </div>
         <br><br>
 
 
@@ -96,10 +100,8 @@
             <div class="col-lg-7 col-md-5">
             <div class="card bg-secondary shadow border-0">
                 <div class="card-header bg-transparent pb-5">
-                        <h1>Break {{step}}/{{breaks_n}}</h1>
-                    <p><b>   
-                        {{s_point[step-1]|safe}}<br>
-                    </b></p>
+                        <h1>Starting Point</h1><br>
+                        {{s_point[step-1]|safe}}
                 </div>
                     
                 <br>	
@@ -119,7 +121,6 @@
                     <div style="padding-left:45%;">
                         <input type="hidden" name="step" value="{{step+1}}">
                         <input type="hidden" name="q_id" value="{{q_id}}">
-                        <input type="hidden" name="status_{{step}}" value={{status}}>
                         <button name="submit_{{step+1}}" class="btn btn-primary" type="submit">Submit</button>
                     </div>	
                     <br>
@@ -130,35 +131,11 @@
             <div class="col-lg-5 col-md-7">
             <div class="card bg-secondary shadow border-0">
                 <div class="card-header pb-5" style="background-image: linear-gradient(to bottom right, #8E2DE2, #4A00E0); color:white; text-align:center;">
-                    <strong>SCORE: 100</strong>
+                    <strong>Program Status</strong>
                 </div>
-    <pre style="padding-left:5%;max-height: 33vh;">{{ status }}
-    
-    using namespace std;
-    
-    int main()
-    {	
-        int n, rem, result;
-        result=0;
-        
-        printf("enter a number");
-        scanf(" %d ", &amp;n);
-        
-        while( n!=0 )
-        {
-            rem = n%10;
-            result = rem*rem*rem;
-            n/=10;
-        }
-        if(result == n)
-            printf("%d is an armstrong number", n);
-        
-        else
-            printf("%d is not an armstrong number" , n);
-        
-        return 0;
-        
-    }
+    <pre style="padding-left:5%;max-height: 63vh;">
+        {{starting|safe}}
+        {{ status|safe}}
     </pre>
                 
             </div>
