@@ -32,7 +32,7 @@ def index():
         ### assigning question to each student
         ass_ques = query_db("SELECT questions FROM Users WHERE id=%s", (session["userid"],))
         if ass_ques[0][0] is None:
-            all_ques = query_db("SELECT * FROM Questions ORDER BY RAND() LIMIT 10;")
+            all_ques = query_db("SELECT * FROM Questions ORDER BY RAND() LIMIT 50;")
             q_ids=[]
             for i in all_ques:
                 q_ids.append(i[0])
@@ -201,5 +201,5 @@ def index():
 @login_required
 def leaderboard():
     sel_ques= True
-    users = query_db("SELECT * FROM Users ORDER BY Scores DESC,time ASC")  
+    users = query_db("SELECT * FROM Users GROUP BY id ORDER BY MAX(CAST(IFNULL(scores,0) AS SIGNED)) DESC,time ASC")
     return render_template("leaderboard.html", **locals())
